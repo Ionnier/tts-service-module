@@ -11,6 +11,7 @@ import org.example.eventbus.EventBus
 import org.example.eventbus.TYPES
 import org.example.merger.AudioManager
 import org.example.plugins.*
+import java.lang.Exception
 import java.nio.charset.Charset
 
 fun main() {
@@ -27,6 +28,10 @@ fun main() {
                 println("ERROR: $message")
             }
         }
-        EventBus.createQueue(dc)
+        try{
+            EventBus.createQueue(dc)
+        } catch(e: Exception){
+            println("Couldn't create queue")
+        }
     }.start(wait = true)
 }

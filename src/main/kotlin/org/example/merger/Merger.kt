@@ -6,9 +6,10 @@ import org.example.eventbus.TYPES
 import java.io.File
 import java.io.FileOutputStream
 import java.io.FileInputStream
+import java.lang.Exception
 import java.util.*
 
-const val WRITE_PATH = "./audioFiles/"
+const val WRITE_PATH = "/app/audioFiles/"
 data class AudioFile(val letter: String, val path: String) {
     companion object {
         fun extractLetter(aux: String): String {
@@ -28,7 +29,7 @@ data class ProcessedAudio(val content: String, val id: String = UUID.randomUUID(
 
 object AudioManager {
     private val PATH by lazy {
-        "D:\\Facultate\\Anul III\\Semestrul II\\Metode de Dezvoltare Software\\Curs\\Teme\\T03\\Aplicatie\\voices"
+        "/app/voices"
     }
 
     private val audioFiles: List<AudioFile>?
@@ -90,10 +91,14 @@ object AudioManager {
 
     private fun addFile(processedAudio: ProcessedAudio){
         processedFiles[processedAudio.id] = processedAudio
-        EventBus.sendEvent(Event(TYPES.CREATED.type, processedAudio.content))
+        try{
+            EventBus.sendEvent(Event(TYPES.CREATED.type, processedAudio.content))
+        } catch (e: Exception) {
+            println("Couldn't send event")
+        }
     }
 
-    fun getFile(content: String, justCreate: Boolean = true): ByteArray? {
+    fun getFile(content: String, justCreate: Boolean = false): ByteArray? {
         processedFiles.entries.stream().filter { it.value.content == content }.findFirst().let{
             if (justCreate) {
                 if (it.isEmpty) {

@@ -2,6 +2,7 @@ package org.example.eventbus
 
 import com.google.gson.Gson
 import com.rabbitmq.client.*
+import java.lang.Exception
 import java.nio.charset.Charset
 
 const val EXCHANGE_NAME = "asdf"
@@ -15,6 +16,11 @@ object EventBus {
 
     init {
         connectionFactory.host = "localhost"
+        try{
+            connectionFactory.host = System.getenv("RABBITMQ")
+        } catch(e: Exception){
+            // blank
+        }
     }
 
     private fun createConnection(): Connection {
