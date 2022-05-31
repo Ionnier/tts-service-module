@@ -5,7 +5,7 @@ import com.rabbitmq.client.*
 import java.lang.Exception
 import java.nio.charset.Charset
 
-const val EXCHANGE_NAME = "asdf"
+val EXCHANGE_NAME = System.getenv("EXCHANGE_NAME") ?: "asdf"
 
 object EventBus {
     private val connectionFactory: ConnectionFactory = ConnectionFactory()

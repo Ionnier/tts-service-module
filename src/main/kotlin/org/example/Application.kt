@@ -15,7 +15,7 @@ import java.lang.Exception
 import java.nio.charset.Charset
 
 fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
+    embeddedServer(Netty, port = System.getenv("PORT")?.toInt() ?: 3000, host = "0.0.0.0") {
         configureRouting()
         val dc = DeliverCallback { consumerTag: String?, delivery: Delivery ->
             val message = String(delivery.body, Charset.forName("UTF-8"))
